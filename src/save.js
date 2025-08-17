@@ -2,13 +2,14 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { dateI18n } from '@wordpress/date';
 
 export default function save({ attributes }) {
-  const { date, format } = attributes;
+  const { eventName, startDateTime, dateFormat } = attributes;
   const blockProps = useBlockProps.save();
 
-  // Guardamos el texto ya formateado, así no hace falta JS en el frontend.
-  const output = date
-    ? dateI18n(format, new Date(`${date}T00:00:00`))
-    : '';
+  if (!startDateTime) return null;
+
+  const jsStartDate = new Date(startDateTime);
+  const formattedStartDate = dateI18n(dateFormat, jsStartDate);
+  const isoStartDate = jsStartDate.toISOString();
 
   /*
   <div itemprop="event" itemscope itemtype="https://schema.org/Event">
@@ -17,6 +18,14 @@ export default function save({ attributes }) {
   </div>
   */
   return (
-    <span {...blockProps}>{output}</span>
+    <div {...blockProps} itemScope itemType="https://schema.org/Event">
+      {eventName && (
+        <span itemProp="name">{eventName}</span>
+      )}
+      {' '}
+      <time itemProp="startDate" dateTime={isoStartDate}>
+        {formattedStartDate}
+      </time>
+    </div>
   );
 }

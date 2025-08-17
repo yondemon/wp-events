@@ -1,0 +1,1 @@
+{"version":3,"file":"index.css","mappings":";;;AAAA;EACE,wBAAwB;EACxB,qBAAqB;AACvB","sources":["webpack://ao-events/./src/editor.css"],"sourcesContent":[".wp-block-ao-events-ao-event-block {\n  outline: 1px dashed #ccc;\n  padding: .5rem .75rem;\n}\n"],"names":[],"sourceRoot":""}

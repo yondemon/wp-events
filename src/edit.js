@@ -1,35 +1,50 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
-import { PanelBody, DatePicker } from '@wordpress/components';
+import { PanelBody, DatePicker, TextControl, SelectControl } from '@wordpress/components';
 import { dateI18n } from '@wordpress/date';
 import { useMemo } from '@wordpress/element';
 
 export default function edit({ attributes, setAttributes }) {
-  const { date, format } = attributes;
+  const { eventName, startDateTime, dateFormat } = attributes;
   const blockProps = useBlockProps();
 
   // Si no hay fecha aún, mostramos un placeholder. Si la hay, la formateamos.
-  const formatted = useMemo(() => {
-    if (!date) return __('Selecciona una fecha…', 'ao-events');
-    // Aseguramos medianoche para evitar desfases de zona horaria
-    const jsDate = new Date(`${date}T00:00:00`);
-    return dateI18n(format, jsDate);
-  }, [date, format]);
+  const formattedStartDate = useMemo(() => {
+    if (!startDateTime) return __('Selecciona una fecha…', 'ao-events');
+
+    console.log(startDateTime);
+    const jsStartDate = new Date(startDateTime);
+    return dateI18n(dateFormat, jsStartDate);
+  }, [startDateTime, dateFormat]);
 
   return (
     <>
       <InspectorControls>
-        <PanelBody title={__('Ajustes de fecha', 'bloque-fecha')} initialOpen={true}>
+        <PanelBody title={__('Evento', 'ao-events')} initialOpen={true}>
+          <TextControl
+            label={__('Nombre del evento', 'bloque-fecha')}
+            value={eventName}
+            onChange={(val) => setAttributes({ eventName: val })}
+          />
+          <SelectControl
+            label={__('Formato de fecha', 'bloque-fecha')}
+            value={dateFormat}
+            options={[
+              { label: 'dd-mm-yyyy (16-Ago-2025)', value: 'd-M-Y' },
+              { label: 'hh:mm (12:30)', value: 'H:i' }
+            ]}
+            onChange={(val) => setAttributes({ dateFormat: val })}
+          />
           <DatePicker
-            currentDate={ date || new Date().toISOString().slice(0, 10) }
-            onChange={ (newDate) => setAttributes({ date: newDate }) }
+            currentDate={ (startDateTime || new Date().toISOString()).slice(0, 10) }
+            onChange={ (newDate) => setAttributes({ startDateTime: newDate }) }
             __nextRemoveHelpButton
           />
         </PanelBody>
       </InspectorControls>
 
       <p {...blockProps}>
-        {formatted}
+        {formattedStartDate} {eventName ? `- ${eventName}` : ''}
       </p>
     </>
   );

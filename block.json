@@ -7,8 +7,9 @@
   "description": "Define los datos de un evento muéstralos formateados. Incluye marcado schema.org",
   "textdomain": "ao-events",
   "attributes": {
-    "date": { "type": "string", "default": null },
-    "format": { "type": "string", "default": "d/m/Y" }
+    "eventName": { "type": "string", "default": "" },
+    "startDateTime": { "type": "string", "default": null },
+    "dateFormat": { "type": "string", "default": "d/m/Y" }
   },
   "supports": {
     "html": false

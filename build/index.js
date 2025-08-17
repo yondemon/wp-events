@@ -37,14 +37,14 @@ function edit({
   const {
     eventName,
     startDateTime,
-    dateFormat
+    endDateTime,
+    dateFormat,
+    location,
+    description
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
-
-  // Si no hay fecha aún, mostramos un placeholder. Si la hay, la formateamos.
   const formattedStartDate = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useMemo)(() => {
     if (!startDateTime) return (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona una fecha…', 'ao-events');
-    console.log(startDateTime);
     const jsStartDate = new Date(startDateTime);
     return (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_3__.dateI18n)(dateFormat, jsStartDate);
   }, [startDateTime, dateFormat]);
@@ -54,13 +54,13 @@ function edit({
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Evento', 'ao-events'),
         initialOpen: true,
         children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Nombre del evento', 'bloque-fecha'),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Nombre del evento', 'ao-events'),
           value: eventName,
           onChange: val => setAttributes({
             eventName: val
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Formato de fecha', 'bloque-fecha'),
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Formato de fecha', 'ao-events'),
           value: dateFormat,
           options: [{
             label: 'dd-mm-yyyy (16-Ago-2025)',
@@ -73,11 +73,31 @@ function edit({
             dateFormat: val
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DatePicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha inicio', 'ao-events'),
           currentDate: (startDateTime || new Date().toISOString()).slice(0, 10),
           onChange: newDate => setAttributes({
             startDateTime: newDate
           }),
           __nextRemoveHelpButton: true
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DatePicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha fin', 'ao-events'),
+          currentDate: (endDateTime || new Date().toISOString()).slice(0, 10),
+          onChange: newDate => setAttributes({
+            endDateTime: newDate
+          }),
+          __nextRemoveHelpButton: true
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ubicación', 'ao-events'),
+          value: location,
+          onChange: val => setAttributes({
+            location: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Descripción', 'ao-events'),
+          value: description,
+          onChange: val => setAttributes({
+            description: val
+          })
         })]
       })
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
@@ -151,13 +171,21 @@ function save({
   const {
     eventName,
     startDateTime,
-    dateFormat
+    endDateTime,
+    dateFormat,
+    location,
+    description
   } = attributes;
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_0__.useBlockProps.save();
   if (!startDateTime) return null;
   const jsStartDate = new Date(startDateTime);
   const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_1__.dateI18n)(dateFormat, jsStartDate);
   const isoStartDate = jsStartDate.toISOString();
+  let isoEndDate = null;
+  if (endDateTime) {
+    const jsEndDate = new Date(endDateTime);
+    isoEndDate = jsEndDate.toISOString();
+  }
 
   /*
   <div itemprop="event" itemscope itemtype="https://schema.org/Event">
@@ -176,6 +204,20 @@ function save({
       itemProp: "startDate",
       dateTime: isoStartDate,
       children: formattedStartDate
+    }), isoEndDate && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("time", {
+      itemProp: "endDate",
+      dateTime: isoEndDate
+    }), location && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      itemProp: "location",
+      itemScope: true,
+      itemType: "https://schema.org/Place",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        itemProp: "name",
+        children: location
+      })
+    }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
+      itemProp: "description",
+      children: description
     })]
   });
 }

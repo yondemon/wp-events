@@ -9,7 +9,10 @@
   "attributes": {
     "eventName": { "type": "string", "default": "" },
     "startDateTime": { "type": "string", "default": null },
-    "dateFormat": { "type": "string", "default": "d/m/Y" }
+    "endDateTime": { "type": "string", "default": null },
+    "dateFormat": { "type": "string", "default": "d/m/Y" },
+    "location": { "type": "string", "default": "" },
+    "description": { "type": "string", "default": "" }
   },
   "supports": {
     "html": false

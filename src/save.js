@@ -2,7 +2,7 @@ import { useBlockProps } from '@wordpress/block-editor';
 import { dateI18n } from '@wordpress/date';
 
 export default function save({ attributes }) {
-  const { eventName, startDateTime, dateFormat } = attributes;
+  const { eventName, startDateTime, endDateTime, dateFormat, location, description } = attributes;
   const blockProps = useBlockProps.save();
 
   if (!startDateTime) return null;
@@ -10,6 +10,12 @@ export default function save({ attributes }) {
   const jsStartDate = new Date(startDateTime);
   const formattedStartDate = dateI18n(dateFormat, jsStartDate);
   const isoStartDate = jsStartDate.toISOString();
+
+  let isoEndDate = null;
+  if (endDateTime) {
+    const jsEndDate = new Date(endDateTime);
+    isoEndDate = jsEndDate.toISOString();
+  }
 
   /*
   <div itemprop="event" itemscope itemtype="https://schema.org/Event">
@@ -26,6 +32,17 @@ export default function save({ attributes }) {
       <time itemProp="startDate" dateTime={isoStartDate}>
         {formattedStartDate}
       </time>
+      {isoEndDate && 
+        <time itemProp="endDate" dateTime={isoEndDate}></time>
+      }
+      {location && (
+        <div itemProp="location" itemScope itemType="https://schema.org/Place">
+          <span itemProp="name">{location}</span>
+        </div>
+      )}
+      {description && (
+        <p itemProp="description">{description}</p>
+      )}
     </div>
   );
 }

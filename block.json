@@ -1,0 +1,19 @@
+{
+  "apiVersion": 3,
+  "name": "ao-events/ao-event-block",
+  "title": "Evento",
+  "category": "text",
+  "icon": "calendar",
+  "description": "Define los datos de un evento muéstralos formateados. Incluye marcado schema.org",
+  "textdomain": "ao-events",
+  "attributes": {
+    "date": { "type": "string", "default": null },
+    "format": { "type": "string", "default": "d/m/Y" }
+  },
+  "supports": {
+    "html": false
+  },
+  "editorScript": "file:./build/index.js",
+  "editorStyle": "file:./build/index.css",
+  "style": "file:./build/style-index.css"
+}

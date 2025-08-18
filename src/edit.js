@@ -2,7 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { 
   PanelBody, 
-  DatePicker, 
+  DateTimePicker, 
   SelectControl,
   TextControl, 
   TextareaControl
@@ -15,7 +15,7 @@ export default function edit({ attributes, setAttributes }) {
   const blockProps = useBlockProps();
 
   const formattedStartDate = useMemo(() => {
-    if (!startDateTime) return __('Selecciona una fecha…', 'ao-events');
+    if (!startDateTime) return null;
 
     const jsStartDate = new Date(startDateTime);
     return dateI18n(dateFormat, jsStartDate);
@@ -30,28 +30,6 @@ export default function edit({ attributes, setAttributes }) {
             value={eventName}
             onChange={(val) => setAttributes({ eventName: val })}
           />
-          <SelectControl
-            label={__('Formato de fecha', 'ao-events')}
-            value={dateFormat}
-            options={[
-              { label: 'dd-mm-yyyy (16-Ago-2025)', value: 'd-M-Y' },
-              { label: 'hh:mm (12:30)', value: 'H:i' }
-            ]}
-            onChange={(val) => setAttributes({ dateFormat: val })}
-          />
-          <DatePicker
-            label={__('Fecha inicio', 'ao-events')}
-            currentDate={ (startDateTime || new Date().toISOString()).slice(0, 10) }
-            onChange={ (newDate) => setAttributes({ startDateTime: newDate }) }
-            __nextRemoveHelpButton
-          />
-          <DatePicker
-            label={__('Fecha fin', 'ao-events')}
-            currentDate={ (endDateTime || new Date().toISOString()).slice(0, 10) }
-            onChange={ (newDate) => setAttributes({ endDateTime: newDate }) }
-            __nextRemoveHelpButton
-          />
-
           <TextControl
             label={__('Ubicación', 'ao-events')}
             value={location}
@@ -62,17 +40,43 @@ export default function edit({ attributes, setAttributes }) {
             value={description}
             onChange={(val) => setAttributes({ description: val })}
           />
+          <TextControl
+              label={__('URL de compra/entradas', 'ao-events')}
+              value={offers}
+              onChange={(val) => setAttributes({ offers: val })}
+              placeholder="https://ejemplo.com/entradas"
+            />
         </PanelBody>
-        <TextControl
-            label={__('URL de compra/entradas', 'ao-events')}
-            value={offers}
-            onChange={(val) => setAttributes({ offers: val })}
-            placeholder="https://ejemplo.com/entradas"
+        <PanelBody title={ `${__('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`} initialOpen={false}>
+          <SelectControl
+            label={__('Formato de fecha', 'ao-events')}
+            value={dateFormat}
+            options={[
+              { label: 'dd-mm-yyyy (16-Ago-2025)', value: 'd-M-Y' },
+              { label: 'l j F – H.i\h. (Sábado 16 Agosto - 20.30h.)', value: 'l j F – H.i\\h.' },
+              { label: 'hh:mm (12:30)', value: 'H:i' }
+            ]}
+            onChange={(val) => setAttributes({ dateFormat: val })}
           />
+          <DateTimePicker
+            label={__('Fecha inicio', 'ao-events')}
+            currentDate={ (startDateTime || new Date().toISOString()) }
+            is12hour={false}
+            onChange={ (newDate) => setAttributes({ startDateTime: newDate }) }
+            __nextRemoveHelpButton
+          />
+          <DateTimePicker
+            label={__('Fecha fin', 'ao-events')}
+            currentDate={ (endDateTime || new Date().toISOString()) }
+            is12hour={false}
+            onChange={ (newDate) => setAttributes({ endDateTime: newDate }) }
+            __nextRemoveHelpButton
+          />
+        </PanelBody>
       </InspectorControls>
 
       <p {...blockProps}>
-        {formattedStartDate} {eventName ? `- ${eventName}` : ''}
+        {formattedStartDate || __('Selecciona fecha y hora…', 'ao-events') } {eventName ? `- ${eventName}` : ''}
       </p>
     </>
   );

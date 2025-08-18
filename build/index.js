@@ -45,7 +45,7 @@ function edit({
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
   const formattedStartDate = (0,_wordpress_element__WEBPACK_IMPORTED_MODULE_4__.useMemo)(() => {
-    if (!startDateTime) return (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona una fecha…', 'ao-events');
+    if (!startDateTime) return null;
     const jsStartDate = new Date(startDateTime);
     return (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_3__.dateI18n)(dateFormat, jsStartDate);
   }, [startDateTime, dateFormat]);
@@ -60,33 +60,6 @@ function edit({
           onChange: val => setAttributes({
             eventName: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Formato de fecha', 'ao-events'),
-          value: dateFormat,
-          options: [{
-            label: 'dd-mm-yyyy (16-Ago-2025)',
-            value: 'd-M-Y'
-          }, {
-            label: 'hh:mm (12:30)',
-            value: 'H:i'
-          }],
-          onChange: val => setAttributes({
-            dateFormat: val
-          })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DatePicker, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha inicio', 'ao-events'),
-          currentDate: (startDateTime || new Date().toISOString()).slice(0, 10),
-          onChange: newDate => setAttributes({
-            startDateTime: newDate
-          }),
-          __nextRemoveHelpButton: true
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DatePicker, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha fin', 'ao-events'),
-          currentDate: (endDateTime || new Date().toISOString()).slice(0, 10),
-          onChange: newDate => setAttributes({
-            endDateTime: newDate
-          }),
-          __nextRemoveHelpButton: true
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ubicación', 'ao-events'),
           value: location,
@@ -99,18 +72,54 @@ function edit({
           onChange: val => setAttributes({
             description: val
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('URL de compra/entradas', 'ao-events'),
+          value: offers,
+          onChange: val => setAttributes({
+            offers: val
+          }),
+          placeholder: "https://ejemplo.com/entradas"
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-        label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('URL de compra/entradas', 'ao-events'),
-        value: offers,
-        onChange: val => setAttributes({
-          offers: val
-        }),
-        placeholder: "https://ejemplo.com/entradas"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`,
+        initialOpen: false,
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Formato de fecha', 'ao-events'),
+          value: dateFormat,
+          options: [{
+            label: 'dd-mm-yyyy (16-Ago-2025)',
+            value: 'd-M-Y'
+          }, {
+            label: 'l j F – H.i\h. (Sábado 16 Agosto - 20.30h.)',
+            value: 'l j F – H.i\\h.'
+          }, {
+            label: 'hh:mm (12:30)',
+            value: 'H:i'
+          }],
+          onChange: val => setAttributes({
+            dateFormat: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha inicio', 'ao-events'),
+          currentDate: startDateTime || new Date().toISOString(),
+          is12hour: false,
+          onChange: newDate => setAttributes({
+            startDateTime: newDate
+          }),
+          __nextRemoveHelpButton: true
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha fin', 'ao-events'),
+          currentDate: endDateTime || new Date().toISOString(),
+          is12hour: false,
+          onChange: newDate => setAttributes({
+            endDateTime: newDate
+          }),
+          __nextRemoveHelpButton: true
+        })]
       })]
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
       ...blockProps,
-      children: [formattedStartDate, " ", eventName ? `- ${eventName}` : '']
+      children: [formattedStartDate || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona fecha y hora…', 'ao-events'), " ", eventName ? `- ${eventName}` : '']
     })]
   });
 }

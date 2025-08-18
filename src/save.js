@@ -21,23 +21,21 @@ export default function save({ attributes }) {
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Event",
-    "name": eventName || undefined,
-    "startDate": isoStartDate,
-    "endDate": isoEndDate || undefined,
-    "location": location ? 
+    name: eventName || undefined,
+    startDate: isoStartDate,
+    endDate: isoEndDate || undefined,
+    location: location ? 
       {
         "@type": "Place",
-        "name": location,
+        name: location,
       }
       : undefined,
-    "description": description || undefined,
-    "offers": offers ?
-      {
+    description: description || undefined,
+    offers: offers.map(url => ({
         "@type": "Offer",
-        "url": offers,
-        "availability": "https://schema.org/InStock", // TODO: Review
-      }
-      : undefined,
+        url,
+        availability: "https://schema.org/InStock", // TODO: Review
+      }))
   };
   Object.keys(schemaData).forEach(
     (k) => schemaData[k] === undefined && delete schemaData[k]
@@ -72,11 +70,16 @@ export default function save({ attributes }) {
       {description && (
         <p itemProp="description">{description}</p>
       )}
-      {offers && (
-        <p><a href={offers} target="_blank" rel="noopener noreferrer">{__('Comprar entradas', 'ao-events')}</a></p>
+      {offers.length > 0 && (
+        <ul>
+          {offers.map((url, i) => (
+            <li key={i} itemScope itemType='https://schema.org/Offer'><a href={url} itemProp="url" target="_blank" rel="noopener noreferrer">{__('Comprar entradas', 'ao-events')}</a></li>
+          ))}
+        </ul>
       )}
+
       <script type="application/ld+json">
-        {JSON.stringify(schemaData)}
+        {JSON.stringify(schemaData, null, 2)}
       </script>
     </div>
   );

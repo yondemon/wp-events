@@ -72,14 +72,14 @@ function edit({
           onChange: val => setAttributes({
             description: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('URL de compra/entradas', 'ao-events'),
-          value: offers,
-          onChange: val => setAttributes({
-            offers: val
-          }),
-          placeholder: "https://ejemplo.com/entradas"
         })]
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Entradas', 'ao-events'),
+        initialOpen: true,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(OffersFields, {
+          offers: offers,
+          setAttributes: setAttributes
+        })
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`,
         initialOpen: false,
@@ -120,6 +120,49 @@ function edit({
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("p", {
       ...blockProps,
       children: [formattedStartDate || (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona fecha y hora…', 'ao-events'), " ", eventName ? `- ${eventName}` : '']
+    })]
+  });
+}
+function OffersFields({
+  offers,
+  setAttributes
+}) {
+  const updateOffer = (value, index) => {
+    const newOffers = [...offers];
+    newOffers[index] = value;
+    setAttributes({
+      offers: newOffers
+    });
+  };
+  const addOffer = () => {
+    setAttributes({
+      offers: [...offers, '']
+    });
+  };
+  const removeOffer = index => {
+    const newOffers = offers.filter((_, i) => i !== index);
+    setAttributes({
+      offers: newOffers
+    });
+  };
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+    className: "offers-fields",
+    children: [offers.map((offer, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+      className: "offers-item",
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        value: offer,
+        onChange: val => updateOffer(val, index),
+        placeholder: "https://ejemplo.com/entradas"
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+        variant: "secondary",
+        isDestructive: true,
+        onClick: () => removeOffer(index),
+        children: "\u2715"
+      })]
+    }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      variant: "primary",
+      onClick: addOffer,
+      children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('+ Añadir enlace', 'ao-events')
     })]
   });
 }
@@ -210,19 +253,19 @@ function save({
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Event",
-    "name": eventName || undefined,
-    "startDate": isoStartDate,
-    "endDate": isoEndDate || undefined,
-    "location": location ? {
+    name: eventName || undefined,
+    startDate: isoStartDate,
+    endDate: isoEndDate || undefined,
+    location: location ? {
       "@type": "Place",
-      "name": location
+      name: location
     } : undefined,
-    "description": description || undefined,
-    "offers": offers ? {
+    description: description || undefined,
+    offers: offers.map(url => ({
       "@type": "Offer",
-      "url": offers,
-      "availability": "https://schema.org/InStock" // TODO: Review
-    } : undefined
+      url,
+      availability: "https://schema.org/InStock" // TODO: Review
+    }))
   };
   Object.keys(schemaData).forEach(k => schemaData[k] === undefined && delete schemaData[k]);
 
@@ -260,16 +303,21 @@ function save({
     }), description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
       itemProp: "description",
       children: description
-    }), offers && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("p", {
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-        href: offers,
-        target: "_blank",
-        rel: "noopener noreferrer",
-        children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Comprar entradas', 'ao-events')
-      })
+    }), offers.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("ul", {
+      children: offers.map((url, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+        itemScope: true,
+        itemType: "https://schema.org/Offer",
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+          href: url,
+          itemProp: "url",
+          target: "_blank",
+          rel: "noopener noreferrer",
+          children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Comprar entradas', 'ao-events')
+        })
+      }, i))
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("script", {
       type: "application/ld+json",
-      children: JSON.stringify(schemaData)
+      children: JSON.stringify(schemaData, null, 2)
     })]
   });
 }

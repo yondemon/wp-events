@@ -2,6 +2,7 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { 
   PanelBody, 
+  Button,
   DateTimePicker, 
   SelectControl,
   TextControl, 
@@ -40,12 +41,12 @@ export default function edit({ attributes, setAttributes }) {
             value={description}
             onChange={(val) => setAttributes({ description: val })}
           />
-          <TextControl
-              label={__('URL de compra/entradas', 'ao-events')}
-              value={offers}
-              onChange={(val) => setAttributes({ offers: val })}
-              placeholder="https://ejemplo.com/entradas"
-            />
+        </PanelBody>
+        <PanelBody title={__('Entradas', 'ao-events')} initialOpen={true}>
+          <OffersFields 
+            offers={ offers }
+            setAttributes={setAttributes}
+          />
         </PanelBody>
         <PanelBody title={ `${__('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`} initialOpen={false}>
           <SelectControl
@@ -79,5 +80,44 @@ export default function edit({ attributes, setAttributes }) {
         {formattedStartDate || __('Selecciona fecha y hora…', 'ao-events') } {eventName ? `- ${eventName}` : ''}
       </p>
     </>
+  );
+}
+
+function OffersFields({ offers, setAttributes }) {
+  const updateOffer = (value, index) => {
+    const newOffers = [...offers];
+    newOffers[index] = value;
+    setAttributes({ offers: newOffers });
+  };
+
+  const addOffer = () => {
+    setAttributes({ offers: [...offers, ''] });
+  };
+
+  const removeOffer = (index) => {
+    const newOffers = offers.filter((_, i) => i !== index);
+    setAttributes({ offers: newOffers });
+  };
+
+  return (
+    <div className="offers-fields">
+      {offers.map((offer, index) => (
+        <div key={index} className="offers-item">
+          <TextControl
+            value={offer}
+            onChange={(val) => updateOffer(val, index)}
+            placeholder="https://ejemplo.com/entradas"
+          />
+          <Button
+            variant="secondary"
+            isDestructive
+            onClick={() => removeOffer(index)}
+          >
+            ✕
+          </Button>
+        </div>
+      ))}
+      <Button variant="primary" onClick={addOffer}>{__('+ Añadir enlace','ao-events')}</Button>
+    </div>
   );
 }

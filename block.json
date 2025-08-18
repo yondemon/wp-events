@@ -13,7 +13,10 @@
     "dateFormat": { "type": "string", "default": "d/m/Y" },
     "location": { "type": "string", "default": "" },
     "description": { "type": "string", "default": "" },
-    "offers": { "type": "string", "default": "" }
+    "offers": {
+      "type": "array",
+      "default": []
+    }
   },
   "supports": {
     "html": false

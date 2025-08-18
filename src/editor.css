@@ -2,3 +2,20 @@
   outline: 1px dashed #ccc;
   padding: .5rem .75rem;
 }
+
+.offers-fields .offers-item {
+   display: flex;
+   align-items: center;
+   gap: 6px;
+   margin-bottom: 8px;
+}
+.offers-fields .offers-item .components-base-control {
+  margin-bottom: 0 !important;
+}
+.offers-item .components-button {
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}

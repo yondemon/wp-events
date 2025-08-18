@@ -11,7 +11,7 @@ import { dateI18n } from '@wordpress/date';
 import { useMemo } from '@wordpress/element';
 
 export default function edit({ attributes, setAttributes }) {
-  const { eventName, startDateTime, endDateTime, dateFormat, location, description } = attributes;
+  const { eventName, startDateTime, endDateTime, dateFormat, location, description, offers } = attributes;
   const blockProps = useBlockProps();
 
   const formattedStartDate = useMemo(() => {
@@ -63,6 +63,12 @@ export default function edit({ attributes, setAttributes }) {
             onChange={(val) => setAttributes({ description: val })}
           />
         </PanelBody>
+        <TextControl
+            label={__('URL de compra/entradas', 'ao-events')}
+            value={offers}
+            onChange={(val) => setAttributes({ offers: val })}
+            placeholder="https://ejemplo.com/entradas"
+          />
       </InspectorControls>
 
       <p {...blockProps}>

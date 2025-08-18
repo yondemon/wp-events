@@ -12,7 +12,8 @@
     "endDateTime": { "type": "string", "default": null },
     "dateFormat": { "type": "string", "default": "d/m/Y" },
     "location": { "type": "string", "default": "" },
-    "description": { "type": "string", "default": "" }
+    "description": { "type": "string", "default": "" },
+    "offers": { "type": "string", "default": "" }
   },
   "supports": {
     "html": false

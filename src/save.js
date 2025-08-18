@@ -1,8 +1,9 @@
+import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 import { dateI18n } from '@wordpress/date';
 
 export default function save({ attributes }) {
-  const { eventName, startDateTime, endDateTime, dateFormat, location, description } = attributes;
+  const { eventName, startDateTime, endDateTime, dateFormat, location, description, offers } = attributes;
   const blockProps = useBlockProps.save();
 
   if (!startDateTime) return null;
@@ -17,10 +18,38 @@ export default function save({ attributes }) {
     isoEndDate = jsEndDate.toISOString();
   }
 
+  const schemaData = {
+    "@context": "https://schema.org",
+    "@type": "Event",
+    "name": eventName || undefined,
+    "startDate": isoStartDate,
+    "endDate": isoEndDate || undefined,
+    "location": location ? 
+      {
+        "@type": "Place",
+        "name": location,
+      }
+      : undefined,
+    "description": description || undefined,
+    "offers": offers ?
+      {
+        "@type": "Offer",
+        "url": offers,
+        "availability": "https://schema.org/InStock", // TODO: Review
+      }
+      : undefined,
+  };
+  Object.keys(schemaData).forEach(
+    (k) => schemaData[k] === undefined && delete schemaData[k]
+  );
+
   /*
   <div itemprop="event" itemscope itemtype="https://schema.org/Event">
-      <a href="foo-fighters-may20-fedexforum" itemprop="url"><span itemprop="name">FedExForum</span></a> <span itemprop="location">Memphis, TN, US</span>
-      <meta itemprop="startDate" content="2011-05-20">May 20 <a href="ticketmaster.com/foofighters/may20-2011" itemprop="offers">Buy tickets</a>
+      <a href="foo-fighters-may20-fedexforum" itemprop="url">
+      <span itemprop="name">FedExForum</span></a> 
+      <span itemprop="location">Memphis, TN, US</span>
+      <meta itemprop="startDate" content="2011-05-20">May 20 
+      <a href="ticketmaster.com/foofighters/may20-2011" itemprop="offers">Buy tickets</a>
   </div>
   */
   return (
@@ -43,6 +72,12 @@ export default function save({ attributes }) {
       {description && (
         <p itemProp="description">{description}</p>
       )}
+      {offers && (
+        <p><a href={offers} target="_blank" rel="noopener noreferrer">{__('Comprar entradas', 'ao-events')}</a></p>
+      )}
+      <script type="application/ld+json">
+        {JSON.stringify(schemaData)}
+      </script>
     </div>
   );
 }

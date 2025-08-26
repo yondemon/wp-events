@@ -7,16 +7,18 @@
   "description": "Define los datos de un evento muéstralos formateados. Incluye marcado schema.org",
   "textdomain": "ao-events",
   "attributes": {
-    "eventName": { "type": "string", "default": "" },
+    "eventName":   { "type": "string", "default": "" },
     "startDateTime": { "type": "string", "default": null },
     "endDateTime": { "type": "string", "default": null },
-    "dateFormat": { "type": "string", "default": "d/m/Y" },
-    "location": { "type": "string", "default": "" },
+    "dateFormat":  { "type": "string", "default": "d/m/Y" },
+    "location":    { "type": "string", "default": "" },
     "description": { "type": "string", "default": "" },
     "offers": {
       "type": "array",
       "default": []
-    }
+    },
+    "showEventName":   { "type": "boolean", "default": true },
+    "showDescription": { "type": "boolean", "default": true }
   },
   "supports": {
     "html": false

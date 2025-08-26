@@ -3,24 +3,29 @@ import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
 import { 
   PanelBody, 
   Button,
+  CheckboxControl,
   DateTimePicker, 
   SelectControl,
   TextControl, 
   TextareaControl
 } from '@wordpress/components';
 import { dateI18n } from '@wordpress/date';
-import { useMemo } from '@wordpress/element';
+
+import SimpleTemplate from './templates/simpleTemplate';
+
+import metadata from '../block.json';
+const BLOCK_NAMESPACE = 'wp-block-' + metadata.name.replace('/', '-');
 
 export default function edit({ attributes, setAttributes }) {
-  const { eventName, startDateTime, endDateTime, dateFormat, location, description, offers } = attributes;
+  const { eventName, 
+    startDateTime, endDateTime, dateFormat, 
+    location, description, offers,
+    showEventName, showDescription
+   } = attributes;
+
   const blockProps = useBlockProps();
 
-  const formattedStartDate = useMemo(() => {
-    if (!startDateTime) return null;
-
-    const jsStartDate = new Date(startDateTime);
-    return dateI18n(dateFormat, jsStartDate);
-  }, [startDateTime, dateFormat]);
+  const formattedStartDate = dateI18n(dateFormat, startDateTime);
 
   return (
     <>
@@ -31,15 +36,25 @@ export default function edit({ attributes, setAttributes }) {
             value={eventName}
             onChange={(val) => setAttributes({ eventName: val })}
           />
+          <CheckboxControl
+            label={__('Mostrar nombre del evento', 'ao-events')}
+            checked={!!showEventName}
+            onChange={(val) => setAttributes({ showEventName: val })}
+          />
           <TextControl
             label={__('Ubicación', 'ao-events')}
             value={location}
             onChange={(val) => setAttributes({ location: val })}
-          />
+          />     
           <TextareaControl
             label={__('Descripción', 'ao-events')}
             value={description}
             onChange={(val) => setAttributes({ description: val })}
+          />
+          <CheckboxControl
+            label={__('Mostrar descripción', 'ao-events')}
+            checked={!!showDescription}
+            onChange={(val) => setAttributes({ showDescription: val })}
           />
         </PanelBody>
         <PanelBody title={__('Entradas', 'ao-events')} initialOpen={true}>
@@ -76,9 +91,14 @@ export default function edit({ attributes, setAttributes }) {
         </PanelBody>
       </InspectorControls>
 
-      <p {...blockProps}>
-        {formattedStartDate || __('Selecciona fecha y hora…', 'ao-events') } {eventName ? `- ${eventName}` : ''}
-      </p>
+      <div {...blockProps}>
+        { startDateTime ?
+            (
+              <SimpleTemplate attributes={attributes} baseClass={BLOCK_NAMESPACE} />
+            )
+            : __('Selecciona fecha y hora…', 'ao-events') 
+        }
+      </div>
     </>
   );
 }

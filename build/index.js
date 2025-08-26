@@ -8,7 +8,7 @@
   \********************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"eventStatus":{"type":"string","default":"EventScheduled"},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"eventStatus":{"type":"string","default":"EventScheduled"},"organizer":{"type":"string","default":""},"performer":{"type":"string","default":""},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true},"showOrganizer":{"type":"boolean","default":false},"showPerformer":{"type":"boolean","default":false}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
 
 /***/ }),
 
@@ -87,6 +87,8 @@ function edit({
     startDateTime,
     endDateTime,
     dateFormat,
+    organizer,
+    performer,
     venue,
     address,
     city,
@@ -94,7 +96,9 @@ function edit({
     eventStatus,
     showEventName,
     showAddress,
-    showDescription
+    showDescription,
+    showOrganizer,
+    showPerformer
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
   const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_3__.dateI18n)(dateFormat, startDateTime);
@@ -114,6 +118,30 @@ function edit({
           checked: !!showEventName,
           onChange: val => setAttributes({
             showEventName: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Organizador', 'ao-events'),
+          value: organizer,
+          onChange: val => setAttributes({
+            organizer: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar organizador', 'ao-events'),
+          checked: !!showOrganizer,
+          onChange: val => setAttributes({
+            showOrganizer: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Intérprete / Artista', 'ao-events'),
+          value: performer,
+          onChange: val => setAttributes({
+            performer: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar Intérprete / Artista', 'ao-events'),
+          checked: !!showPerformer,
+          onChange: val => setAttributes({
+            showPerformer: val
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Lugar / Venue', 'ao-events'),
@@ -328,6 +356,8 @@ function save({
   const {
     eventName,
     description,
+    organizer,
+    performer,
     startDateTime,
     endDateTime,
     venue,
@@ -340,8 +370,6 @@ function save({
   if (!startDateTime) return null;
 
   /* @TODO
-  - "organizer" (opt)
-  - "performer" (opt)
   - "image" (opt)
   - offers
   -- "price" (opcional)
@@ -366,6 +394,15 @@ function save({
       }
     } : undefined,
     description: description || undefined,
+    organizer: organizer ? {
+      "@type": "Organization",
+      "name": organizer
+    } : undefined,
+    performer: performer ? {
+      "@type": "PerformingGroup",
+      "name": performer
+    } // @TODO: Person o PerformingGroup
+    : undefined,
     offers: offers.map(url => ({
       "@type": "Offer",
       url,
@@ -435,7 +472,8 @@ function SimpleTemplate({
   const {
     eventName,
     description,
-    location,
+    organizer,
+    performer,
     startDateTime,
     endDateTime,
     dateFormat,
@@ -445,7 +483,9 @@ function SimpleTemplate({
     offers = [],
     showEventName,
     showAddress,
-    showDescription
+    showDescription,
+    showOrganizer,
+    showPerformer
   } = attributes;
   const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_1__.dateI18n)(dateFormat, startDateTime);
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
@@ -475,6 +515,12 @@ function SimpleTemplate({
     }), showDescription && description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
       className: `${baseClass}__description`,
       children: description
+    }), showOrganizer && organizer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `${baseClass}__organizer`,
+      children: organizer
+    }), showPerformer && performer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
+      className: `${baseClass}__performer`,
+      children: performer
     }), offers.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
       className: `${baseClass}__offers`,
       children: offers.map((url, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {

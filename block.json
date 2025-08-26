@@ -21,9 +21,13 @@
       "default": []
     },
     "eventStatus": { "type": "string", "default": "EventScheduled" },
+    "organizer":   { "type": "string", "default": "" },
+    "performer":   { "type": "string", "default": "" },
     "showEventName":   { "type": "boolean", "default": true },
     "showAddress":     { "type": "boolean", "default": true },
-    "showDescription": { "type": "boolean", "default": true }
+    "showDescription": { "type": "boolean", "default": true },
+    "showOrganizer":   { "type": "boolean", "default": false },
+    "showPerformer":   { "type": "boolean", "default": false }
   },
   "supports": {
     "html": false

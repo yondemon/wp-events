@@ -3,11 +3,12 @@ import { dateI18n } from '@wordpress/date';
 
 export default function SimpleTemplate({ attributes, baseClass }) {
   const { 
-    eventName, description, location, 
+    eventName, description,
+    organizer, performer, 
     startDateTime, endDateTime, dateFormat,
     venue, address, city,
     offers = [],
-    showEventName, showAddress, showDescription 
+    showEventName, showAddress, showDescription, showOrganizer, showPerformer
   } = attributes;
 
   const formattedStartDate = dateI18n(dateFormat, startDateTime);
@@ -37,9 +38,17 @@ export default function SimpleTemplate({ attributes, baseClass }) {
           )}
         </div>
       )}
+      
       {showDescription && description &&  (
         <p className={`${baseClass}__description`}>{description}</p>
       )}
+      {showOrganizer && organizer && (
+        <div className={`${baseClass}__organizer`}>{organizer}</div>
+      )}
+      {showPerformer && performer && (
+        <div className={`${baseClass}__performer`}>{performer}</div>
+      )}
+
       {offers.length > 0 && (
         <ul className={`${baseClass}__offers`}>
           {offers.map((url, i) => (

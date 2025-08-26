@@ -20,10 +20,11 @@ export default function edit({ attributes, setAttributes }) {
   const {
     eventName, description,
     startDateTime, endDateTime, dateFormat, 
+    organizer, performer,
     venue, address, city,
     offers,
     eventStatus,
-    showEventName, showAddress, showDescription
+    showEventName, showAddress, showDescription, showOrganizer, showPerformer
    } = attributes;
 
   const blockProps = useBlockProps();
@@ -44,6 +45,29 @@ export default function edit({ attributes, setAttributes }) {
             checked={!!showEventName}
             onChange={(val) => setAttributes({ showEventName: val })}
           />
+
+          <TextControl
+            label={__('Organizador', 'ao-events')}
+            value={organizer}
+            onChange={(val) => setAttributes({ organizer: val })}
+          />
+          <CheckboxControl
+            label={__('Mostrar organizador', 'ao-events')}
+            checked={!!showOrganizer}
+            onChange={(val) => setAttributes({ showOrganizer: val })}
+          />
+
+          <TextControl
+            label={__('Intérprete / Artista', 'ao-events')}
+            value={performer}
+            onChange={(val) => setAttributes({ performer: val })}
+          />
+          <CheckboxControl
+            label={__('Mostrar Intérprete / Artista', 'ao-events')}
+            checked={!!showPerformer}
+            onChange={(val) => setAttributes({ showPerformer: val })}
+          />
+
           <TextControl
             label={__('Lugar / Venue', 'ao-events')}
             value={venue}

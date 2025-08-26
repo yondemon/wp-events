@@ -7,6 +7,7 @@ import { BLOCK_NAMESPACE } from './constants';
 export default function save({ attributes }) {
   const { 
     eventName, description,
+    organizer, performer,
     startDateTime, endDateTime, 
     venue, address, city,
     offers = [],
@@ -17,8 +18,6 @@ export default function save({ attributes }) {
   if (!startDateTime) return null;
 
   /* @TODO
-  - "organizer" (opt)
-  - "performer" (opt)
   - "image" (opt)
   - offers
   -- "price" (opcional)
@@ -45,6 +44,12 @@ export default function save({ attributes }) {
       }
       : undefined,
     description: description || undefined,
+    organizer: organizer
+      ? { "@type": "Organization", "name": organizer }
+      : undefined,
+    performer: performer
+      ? { "@type": "PerformingGroup", "name": performer } // @TODO: Person o PerformingGroup
+      : undefined,
     offers: offers.map(url => ({
         "@type": "Offer",
         url,

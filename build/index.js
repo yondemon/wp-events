@@ -93,6 +93,8 @@ function edit({
     address,
     city,
     offers,
+    price,
+    priceCurrency,
     eventStatus,
     showEventName,
     showAddress,
@@ -191,13 +193,25 @@ function edit({
             eventStatus: value
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Entradas', 'ao-events'),
         initialOpen: true,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(OffersFields, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Precio', 'ao-events'),
+          value: price,
+          onChange: val => setAttributes({
+            price: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Moneda', 'ao-events'),
+          value: priceCurrency,
+          onChange: val => setAttributes({
+            priceCurrency: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(OffersFields, {
           offers: offers,
           setAttributes: setAttributes
-        })
+        })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`,
         initialOpen: false,
@@ -341,10 +355,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
+
 
 
 
@@ -364,6 +381,8 @@ function save({
     address,
     city,
     offers = [],
+    price,
+    priceCurrency,
     eventStatus
   } = attributes;
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
@@ -371,10 +390,10 @@ function save({
 
   /* @TODO
   - "image" (opt)
-  - offers
-  -- "price" (opcional)
-  -- "validFrom" (opcional)
-  -- "priceCurrency" (opcional)
+  - Organizer
+  -- "url" (opt)
+  - Offers
+  -- validFrom - improve
   */
 
   const schemaData = {
@@ -406,16 +425,20 @@ function save({
     offers: offers.map(url => ({
       "@type": "Offer",
       url,
-      availability: "https://schema.org/InStock" // @TODO: Review
+      availability: "https://schema.org/InStock",
+      // @TODO: Review
+      price: price || undefined,
+      priceCurrency: priceCurrency || undefined,
+      validFrom: startDateTime ? getValidFrom(startDateTime) : undefined
     }))
   };
   Object.keys(schemaData).forEach(k => schemaData[k] === undefined && delete schemaData[k]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
     ...blockProps,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_3__["default"], {
       attributes: attributes,
-      baseClass: _constants__WEBPACK_IMPORTED_MODULE_3__.BLOCK_NAMESPACE
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("script", {
+      baseClass: _constants__WEBPACK_IMPORTED_MODULE_4__.BLOCK_NAMESPACE
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("script", {
       type: "application/ld+json",
       children: JSON.stringify(schemaData, null, 2)
     })]
@@ -430,6 +453,13 @@ const addHours = (isoString, hours) => {
   } catch (e) {
     return undefined;
   }
+};
+const getValidFrom = startDate => {
+  if (!startDate) return null;
+  const eventDate = new Date(startDate);
+  let validFrom = new Date(eventDate);
+  validFrom.setMonth(validFrom.getMonth() - 2);
+  return validFrom.toISOString();
 };
 
 /***/ }),
@@ -481,6 +511,8 @@ function SimpleTemplate({
     address,
     city,
     offers = [],
+    price,
+    priceCurrency,
     showEventName,
     showAddress,
     showDescription,
@@ -521,6 +553,9 @@ function SimpleTemplate({
     }), showPerformer && performer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `${baseClass}__performer`,
       children: performer
+    }), price && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
+      className: `${baseClass}__price`,
+      children: [price, " ", priceCurrency]
     }), offers.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
       className: `${baseClass}__offers`,
       children: offers.map((url, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
@@ -564,6 +599,16 @@ module.exports = window["wp"]["blocks"];
 /***/ ((module) => {
 
 module.exports = window["wp"]["components"];
+
+/***/ }),
+
+/***/ "@wordpress/data":
+/*!******************************!*\
+  !*** external ["wp","data"] ***!
+  \******************************/
+/***/ ((module) => {
+
+module.exports = window["wp"]["data"];
 
 /***/ }),
 

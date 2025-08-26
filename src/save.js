@@ -1,5 +1,6 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
+import { useSelect } from '@wordpress/data';
 
 import SimpleTemplate from './templates/simpleTemplate';
 import { BLOCK_NAMESPACE } from './constants';
@@ -11,6 +12,7 @@ export default function save({ attributes }) {
     startDateTime, endDateTime, 
     venue, address, city,
     offers = [],
+    price, priceCurrency,
     eventStatus
    } = attributes;
   const blockProps = useBlockProps.save();
@@ -19,10 +21,10 @@ export default function save({ attributes }) {
 
   /* @TODO
   - "image" (opt)
-  - offers
-  -- "price" (opcional)
-  -- "validFrom" (opcional)
-  -- "priceCurrency" (opcional)
+  - Organizer
+  -- "url" (opt)
+  - Offers
+  -- validFrom - improve
   */
 
   const schemaData = {
@@ -54,6 +56,9 @@ export default function save({ attributes }) {
         "@type": "Offer",
         url,
         availability: "https://schema.org/InStock", // @TODO: Review
+        price: price || undefined,
+        priceCurrency: priceCurrency || undefined,
+        validFrom: startDateTime ? getValidFrom(startDateTime) : undefined
       }))
   };
   Object.keys(schemaData).forEach(
@@ -81,4 +86,14 @@ const addHours = (isoString, hours) => {
   } catch (e) {
     return undefined;
   }
+};
+
+const getValidFrom = (startDate) => {
+  if (!startDate) return null;
+
+  const eventDate = new Date(startDate);
+  let validFrom = new Date(eventDate);
+  validFrom.setMonth(validFrom.getMonth() - 2);
+
+  return validFrom.toISOString();
 };

@@ -8,6 +8,7 @@ export default function SimpleTemplate({ attributes, baseClass }) {
     startDateTime, endDateTime, dateFormat,
     venue, address, city,
     offers = [],
+    price, priceCurrency,
     showEventName, showAddress, showDescription, showOrganizer, showPerformer
   } = attributes;
 
@@ -47,6 +48,12 @@ export default function SimpleTemplate({ attributes, baseClass }) {
       )}
       {showPerformer && performer && (
         <div className={`${baseClass}__performer`}>{performer}</div>
+      )}
+
+      {price && (
+        <div className={`${baseClass}__price`}>
+          {price} {priceCurrency}
+        </div>
       )}
 
       {offers.length > 0 && (

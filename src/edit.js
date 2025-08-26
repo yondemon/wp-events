@@ -23,7 +23,8 @@ export default function edit({ attributes, setAttributes }) {
     organizer, performer,
     venue, address, city,
     offers,
-    eventStatus,
+    price, priceCurrency,
+    eventStatus, 
     showEventName, showAddress, showDescription, showOrganizer, showPerformer
    } = attributes;
 
@@ -108,6 +109,17 @@ export default function edit({ attributes, setAttributes }) {
           />
         </PanelBody>
         <PanelBody title={__('Entradas', 'ao-events')} initialOpen={true}>
+          <TextControl
+            label={__('Precio', 'ao-events')}
+            value={price}
+            onChange={(val) => setAttributes({ price: val })}
+          />
+          <TextControl
+            label={__('Moneda', 'ao-events')}
+            value={priceCurrency}
+            onChange={(val) => setAttributes({ priceCurrency: val })}
+          />
+
           <OffersFields 
             offers={ offers }
             setAttributes={setAttributes}

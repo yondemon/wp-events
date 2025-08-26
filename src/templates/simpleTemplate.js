@@ -12,30 +12,21 @@ export default function SimpleTemplate({ attributes, baseClass }) {
 
   const formattedStartDate = dateI18n(dateFormat, startDateTime);
 
-  /*
-  <div itemprop="event" itemscope itemtype="https://schema.org/Event">
-      <a href="foo-fighters-may20-fedexforum" itemprop="url">
-      <span itemprop="name">FedExForum</span></a> 
-      <span itemprop="location">Memphis, TN, US</span>
-      <meta itemprop="startDate" content="2011-05-20">May 20 
-      <a href="ticketmaster.com/foofighters/may20-2011" itemprop="offers">Buy tickets</a>
-  </div>
-  */
   return (
-    <div itemScope itemType="https://schema.org/Event">
+    <div>
       {showEventName && eventName &&  (
-        <span className={`${baseClass}__name`} itemProp="name">{eventName}</span>
+        <span className={`${baseClass}__name`}>{eventName}</span>
       )}
       {' '}
-      <time className={`${baseClass}__date`} itemProp="startDate" dateTime={startDateTime}>
+      <time className={`${baseClass}__date`} dateTime={startDateTime}>
         {formattedStartDate}
       </time>
       {endDateTime && 
-        <time itemProp="endDate" dateTime={endDateTime}></time>
+        <time dateTime={endDateTime}></time>
       }
       {(venue || city || (showAddress && address)) && (
-        <div className={`${baseClass}__location`} itemProp="location" itemScope itemType="https://schema.org/Place">
-          {venue && <span className={`${baseClass}__venue`} itemProp="name">{venue}</span>}
+        <div className={`${baseClass}__location`}>
+          {venue && <span className={`${baseClass}__venue`}>{venue}</span>}
           {(city || (showAddress && address)) && (
             <> (
               {(showAddress && address) && (
@@ -47,12 +38,12 @@ export default function SimpleTemplate({ attributes, baseClass }) {
         </div>
       )}
       {showDescription && description &&  (
-        <p className={`${baseClass}__description`} itemProp="description">{description}</p>
+        <p className={`${baseClass}__description`}>{description}</p>
       )}
       {offers.length > 0 && (
         <ul className={`${baseClass}__offers`}>
           {offers.map((url, i) => (
-            <li key={i} itemScope itemType='https://schema.org/Offer'><a href={url} itemProp="url" target="_blank" rel="noopener noreferrer">{__('Comprar entradas', 'ao-events')}</a></li>
+            <li key={i}><a href={url} target="_blank" rel="noopener noreferrer">{__('Comprar entradas', 'ao-events')}</a></li>
           ))}
         </ul>
       )}

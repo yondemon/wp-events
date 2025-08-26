@@ -8,7 +8,43 @@
   \********************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"eventStatus":{"type":"string","default":"EventScheduled"},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
+
+/***/ }),
+
+/***/ "./src/constants.js":
+/*!**************************!*\
+  !*** ./src/constants.js ***!
+  \**************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   BLOCK_NAMESPACE: () => (/* binding */ BLOCK_NAMESPACE),
+/* harmony export */   EVENT_STATUS_OPTIONS: () => (/* binding */ EVENT_STATUS_OPTIONS)
+/* harmony export */ });
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @wordpress/i18n */ "@wordpress/i18n");
+/* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../block.json */ "./block.json");
+
+
+const BLOCK_NAMESPACE = 'wp-block-' + _block_json__WEBPACK_IMPORTED_MODULE_1__.name.replace('/', '-');
+const EVENT_STATUS_OPTIONS = [{
+  value: 'EventScheduled',
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Programado', 'ao-events')
+}, {
+  value: 'EventCancelled',
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Cancelado', 'ao-events')
+}, {
+  value: 'EventMovedOnline',
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Movido a online', 'ao-events')
+}, {
+  value: 'EventPostponed',
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Pospuesto', 'ao-events')
+}, {
+  value: 'EventRescheduled',
+  label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Reprogramado', 'ao-events')
+}];
 
 /***/ }),
 
@@ -31,7 +67,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
 /* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../block.json */ "./block.json");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
 
@@ -41,7 +77,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const BLOCK_NAMESPACE = 'wp-block-' + _block_json__WEBPACK_IMPORTED_MODULE_5__.name.replace('/', '-');
 function edit({
   attributes,
   setAttributes
@@ -56,6 +91,7 @@ function edit({
     address,
     city,
     offers,
+    eventStatus,
     showEventName,
     showAddress,
     showDescription
@@ -117,6 +153,17 @@ function edit({
           })
         })]
       }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+        title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Estado del evento', 'ao-events')} ${eventStatus}`,
+        initialOpen: false,
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Estado', 'ao-events'),
+          value: eventStatus,
+          options: _constants__WEBPACK_IMPORTED_MODULE_5__.EVENT_STATUS_OPTIONS,
+          onChange: value => setAttributes({
+            eventStatus: value
+          })
+        })
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Entradas', 'ao-events'),
         initialOpen: true,
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(OffersFields, {
@@ -164,7 +211,7 @@ function edit({
       ...blockProps,
       children: startDateTime ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_4__["default"], {
         attributes: attributes,
-        baseClass: BLOCK_NAMESPACE
+        baseClass: _constants__WEBPACK_IMPORTED_MODULE_5__.BLOCK_NAMESPACE
       }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona fecha y hora…', 'ao-events')
     })]
   });
@@ -267,7 +314,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
-/* harmony import */ var _block_json__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../block.json */ "./block.json");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
 /* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 
@@ -275,7 +322,6 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-const BLOCK_NAMESPACE = 'wp-block-' + _block_json__WEBPACK_IMPORTED_MODULE_3__.name.replace('/', '-');
 function save({
   attributes
 }) {
@@ -284,20 +330,32 @@ function save({
     description,
     startDateTime,
     endDateTime,
-    dateFormat,
     venue,
     address,
     city,
-    offers = []
+    offers = [],
+    eventStatus
   } = attributes;
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
   if (!startDateTime) return null;
+
+  /* @TODO
+  - "organizer" (opt)
+  - "performer" (opt)
+  - "image" (opt)
+  - offers
+  -- "price" (opcional)
+  -- "validFrom" (opcional)
+  -- "priceCurrency" (opcional)
+  */
+
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: eventName || undefined,
+    eventStatus: eventStatus ? `https://schema.org/${eventStatus}` : "https://schema.org/EventScheduled",
     startDate: startDateTime,
-    endDate: endDateTime || undefined,
+    endDate: endDateTime || startDateTime ? addHours(startDateTime, 3) : undefined,
     location: location ? {
       "@type": "Place",
       name: venue || "",
@@ -319,13 +377,23 @@ function save({
     ...blockProps,
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__["default"], {
       attributes: attributes,
-      baseClass: BLOCK_NAMESPACE
+      baseClass: _constants__WEBPACK_IMPORTED_MODULE_3__.BLOCK_NAMESPACE
     }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("script", {
       type: "application/ld+json",
       children: JSON.stringify(schemaData, null, 2)
     })]
   });
 }
+const addHours = (isoString, hours) => {
+  try {
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return undefined;
+    date.setHours(date.getHours() + hours);
+    return date.toISOString();
+  } catch (e) {
+    return undefined;
+  }
+};
 
 /***/ }),
 
@@ -380,39 +448,20 @@ function SimpleTemplate({
     showDescription
   } = attributes;
   const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_1__.dateI18n)(dateFormat, startDateTime);
-
-  /*
-  <div itemprop="event" itemscope itemtype="https://schema.org/Event">
-      <a href="foo-fighters-may20-fedexforum" itemprop="url">
-      <span itemprop="name">FedExForum</span></a> 
-      <span itemprop="location">Memphis, TN, US</span>
-      <meta itemprop="startDate" content="2011-05-20">May 20 
-      <a href="ticketmaster.com/foofighters/may20-2011" itemprop="offers">Buy tickets</a>
-  </div>
-  */
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
-    itemScope: true,
-    itemType: "https://schema.org/Event",
     children: [showEventName && eventName && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
       className: `${baseClass}__name`,
-      itemProp: "name",
       children: eventName
     }), ' ', /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("time", {
       className: `${baseClass}__date`,
-      itemProp: "startDate",
       dateTime: startDateTime,
       children: formattedStartDate
     }), endDateTime && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("time", {
-      itemProp: "endDate",
       dateTime: endDateTime
     }), (venue || city || showAddress && address) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: `${baseClass}__location`,
-      itemProp: "location",
-      itemScope: true,
-      itemType: "https://schema.org/Place",
       children: [venue && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
         className: `${baseClass}__venue`,
-        itemProp: "name",
         children: venue
       }), (city || showAddress && address) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
         children: [" (", showAddress && address && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
@@ -425,16 +474,12 @@ function SimpleTemplate({
       })]
     }), showDescription && description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
       className: `${baseClass}__description`,
-      itemProp: "description",
       children: description
     }), offers.length > 0 && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("ul", {
       className: `${baseClass}__offers`,
       children: offers.map((url, i) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("li", {
-        itemScope: true,
-        itemType: "https://schema.org/Offer",
         children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
           href: url,
-          itemProp: "url",
           target: "_blank",
           rel: "noopener noreferrer",
           children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Comprar entradas', 'ao-events')

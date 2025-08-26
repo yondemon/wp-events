@@ -12,9 +12,9 @@ import {
 import { dateI18n } from '@wordpress/date';
 
 import SimpleTemplate from './templates/simpleTemplate';
-
-import metadata from '../block.json';
-const BLOCK_NAMESPACE = 'wp-block-' + metadata.name.replace('/', '-');
+import {
+  BLOCK_NAMESPACE, EVENT_STATUS_OPTIONS
+} from './constants';
 
 export default function edit({ attributes, setAttributes }) {
   const {
@@ -22,6 +22,7 @@ export default function edit({ attributes, setAttributes }) {
     startDateTime, endDateTime, dateFormat, 
     venue, address, city,
     offers,
+    eventStatus,
     showEventName, showAddress, showDescription
    } = attributes;
 
@@ -72,6 +73,14 @@ export default function edit({ attributes, setAttributes }) {
             label={__('Mostrar descripción', 'ao-events')}
             checked={!!showDescription}
             onChange={(val) => setAttributes({ showDescription: val })}
+          />
+        </PanelBody>
+        <PanelBody title={`${__('Estado del evento', 'ao-events')} ${eventStatus}`} initialOpen={false}>
+          <SelectControl
+            label={__('Estado', 'ao-events')}
+            value={eventStatus}
+            options={EVENT_STATUS_OPTIONS}
+            onChange={(value) => setAttributes({ eventStatus: value })}
           />
         </PanelBody>
         <PanelBody title={__('Entradas', 'ao-events')} initialOpen={true}>

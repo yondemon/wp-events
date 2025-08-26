@@ -2,27 +2,37 @@ import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
 
 import SimpleTemplate from './templates/simpleTemplate';
-
-import metadata from '../block.json';
-const BLOCK_NAMESPACE = 'wp-block-' + metadata.name.replace('/', '-');
+import { BLOCK_NAMESPACE } from './constants';
 
 export default function save({ attributes }) {
   const { 
     eventName, description,
-    startDateTime, endDateTime, dateFormat, 
+    startDateTime, endDateTime, 
     venue, address, city,
-    offers = []
+    offers = [],
+    eventStatus
    } = attributes;
   const blockProps = useBlockProps.save();
 
   if (!startDateTime) return null;
 
+  /* @TODO
+  - "organizer" (opt)
+  - "performer" (opt)
+  - "image" (opt)
+  - offers
+  -- "price" (opcional)
+  -- "validFrom" (opcional)
+  -- "priceCurrency" (opcional)
+  */
+
   const schemaData = {
     "@context": "https://schema.org",
     "@type": "Event",
     name: eventName || undefined,
+    eventStatus: eventStatus ? `https://schema.org/${eventStatus}` : "https://schema.org/EventScheduled",
     startDate: startDateTime,
-    endDate: endDateTime || undefined,
+    endDate: endDateTime || (startDateTime)? addHours(startDateTime, 3) : undefined,
     location: location ? 
       {
         "@type": "Place",
@@ -54,3 +64,16 @@ export default function save({ attributes }) {
     </div>
   );
 }
+
+const addHours = (isoString, hours) => {
+  try {
+    const date = new Date(isoString);
+    if (isNaN(date.getTime())) return undefined;
+
+    date.setHours(date.getHours() + hours);
+
+    return date.toISOString();
+  } catch (e) {
+    return undefined;
+  }
+};

@@ -20,6 +20,7 @@
       "type": "array",
       "default": []
     },
+    "eventStatus": { "type": "string", "default": "EventScheduled" },
     "showEventName":   { "type": "boolean", "default": true },
     "showAddress":     { "type": "boolean", "default": true },
     "showDescription": { "type": "boolean", "default": true }

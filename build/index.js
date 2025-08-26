@@ -8,7 +8,7 @@
   \********************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"showEventName":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
 
 /***/ }),
 
@@ -48,13 +48,16 @@ function edit({
 }) {
   const {
     eventName,
+    description,
     startDateTime,
     endDateTime,
     dateFormat,
-    location,
-    description,
+    venue,
+    address,
+    city,
     offers,
     showEventName,
+    showAddress,
     showDescription
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
@@ -77,10 +80,28 @@ function edit({
             showEventName: val
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
-          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ubicación', 'ao-events'),
-          value: location,
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Lugar / Venue', 'ao-events'),
+          value: venue,
           onChange: val => setAttributes({
-            location: val
+            venue: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Dirección', 'ao-events'),
+          value: address,
+          onChange: val => setAttributes({
+            address: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar dirección', 'ao-events'),
+          checked: !!showAddress,
+          onChange: val => setAttributes({
+            showAddress: val
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ciudad', 'ao-events'),
+          value: city,
+          onChange: val => setAttributes({
+            city: val
           })
         }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Descripción', 'ao-events'),
@@ -261,11 +282,13 @@ function save({
   const {
     eventName,
     description,
-    location,
-    offers = [],
     startDateTime,
     endDateTime,
-    dateFormat
+    dateFormat,
+    venue,
+    address,
+    city,
+    offers = []
   } = attributes;
   const blockProps = _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps.save();
   if (!startDateTime) return null;
@@ -277,7 +300,12 @@ function save({
     endDate: endDateTime || undefined,
     location: location ? {
       "@type": "Place",
-      name: location
+      name: venue || "",
+      address: {
+        "@type": "PostalAddress",
+        streetAddress: address || "",
+        addressLocality: city || ""
+      }
     } : undefined,
     description: description || undefined,
     offers: offers.map(url => ({
@@ -340,11 +368,15 @@ function SimpleTemplate({
     eventName,
     description,
     location,
-    offers = [],
     startDateTime,
     endDateTime,
     dateFormat,
+    venue,
+    address,
+    city,
+    offers = [],
     showEventName,
+    showAddress,
     showDescription
   } = attributes;
   const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_1__.dateI18n)(dateFormat, startDateTime);
@@ -373,15 +405,24 @@ function SimpleTemplate({
     }), endDateTime && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("time", {
       itemProp: "endDate",
       dateTime: endDateTime
-    }), location && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+    }), (venue || city || showAddress && address) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("div", {
       className: `${baseClass}__location`,
       itemProp: "location",
       itemScope: true,
       itemType: "https://schema.org/Place",
-      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+      children: [venue && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+        className: `${baseClass}__venue`,
         itemProp: "name",
-        children: location
-      })
+        children: venue
+      }), (city || showAddress && address) && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.Fragment, {
+        children: [" (", showAddress && address && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsxs)("span", {
+          className: `${baseClass}__address`,
+          children: [address, ", "]
+        }), city && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("span", {
+          className: `${baseClass}__city`,
+          children: city
+        }), ")"]
+      })]
     }), showDescription && description && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("p", {
       className: `${baseClass}__description`,
       itemProp: "description",

@@ -4,9 +4,10 @@ import { dateI18n } from '@wordpress/date';
 export default function SimpleTemplate({ attributes, baseClass }) {
   const { 
     eventName, description, location, 
-    offers = [],
     startDateTime, endDateTime, dateFormat,
-    showEventName, showDescription 
+    venue, address, city,
+    offers = [],
+    showEventName, showAddress, showDescription 
   } = attributes;
 
   const formattedStartDate = dateI18n(dateFormat, startDateTime);
@@ -32,10 +33,18 @@ export default function SimpleTemplate({ attributes, baseClass }) {
       {endDateTime && 
         <time itemProp="endDate" dateTime={endDateTime}></time>
       }
-      {location && (
-        <span className={`${baseClass}__location`} itemProp="location" itemScope itemType="https://schema.org/Place">
-          <span itemProp="name">{location}</span>
-        </span>
+      {(venue || city || (showAddress && address)) && (
+        <div className={`${baseClass}__location`} itemProp="location" itemScope itemType="https://schema.org/Place">
+          {venue && <span className={`${baseClass}__venue`} itemProp="name">{venue}</span>}
+          {(city || (showAddress && address)) && (
+            <> (
+              {(showAddress && address) && (
+                <span className={`${baseClass}__address`}>{address}, </span>
+              )}
+              {city && <span className={`${baseClass}__city`}>{city}</span>}
+            )</>
+          )}
+        </div>
       )}
       {showDescription && description &&  (
         <p className={`${baseClass}__description`} itemProp="description">{description}</p>

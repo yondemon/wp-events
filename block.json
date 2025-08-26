@@ -12,12 +12,16 @@
     "endDateTime": { "type": "string", "default": null },
     "dateFormat":  { "type": "string", "default": "d/m/Y" },
     "location":    { "type": "string", "default": "" },
+    "venue":       { "type": "string", "default": "" },
+    "address":     { "type": "string", "default": "" },
+    "city":        { "type": "string", "default": "" },
     "description": { "type": "string", "default": "" },
     "offers": {
       "type": "array",
       "default": []
     },
     "showEventName":   { "type": "boolean", "default": true },
+    "showAddress":     { "type": "boolean", "default": true },
     "showDescription": { "type": "boolean", "default": true }
   },
   "supports": {

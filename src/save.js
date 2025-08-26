@@ -8,9 +8,10 @@ const BLOCK_NAMESPACE = 'wp-block-' + metadata.name.replace('/', '-');
 
 export default function save({ attributes }) {
   const { 
-    eventName, description, location, 
-    offers = [],
+    eventName, description,
     startDateTime, endDateTime, dateFormat, 
+    venue, address, city,
+    offers = []
    } = attributes;
   const blockProps = useBlockProps.save();
 
@@ -25,7 +26,12 @@ export default function save({ attributes }) {
     location: location ? 
       {
         "@type": "Place",
-        name: location,
+        name: venue || "",
+        address: {
+          "@type": "PostalAddress",
+          streetAddress: address || "",
+          addressLocality: city || ""
+        }
       }
       : undefined,
     description: description || undefined,

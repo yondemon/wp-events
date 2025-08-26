@@ -17,10 +17,12 @@ import metadata from '../block.json';
 const BLOCK_NAMESPACE = 'wp-block-' + metadata.name.replace('/', '-');
 
 export default function edit({ attributes, setAttributes }) {
-  const { eventName, 
+  const {
+    eventName, description,
     startDateTime, endDateTime, dateFormat, 
-    location, description, offers,
-    showEventName, showDescription
+    venue, address, city,
+    offers,
+    showEventName, showAddress, showDescription
    } = attributes;
 
   const blockProps = useBlockProps();
@@ -42,10 +44,25 @@ export default function edit({ attributes, setAttributes }) {
             onChange={(val) => setAttributes({ showEventName: val })}
           />
           <TextControl
-            label={__('Ubicación', 'ao-events')}
-            value={location}
-            onChange={(val) => setAttributes({ location: val })}
-          />     
+            label={__('Lugar / Venue', 'ao-events')}
+            value={venue}
+            onChange={(val) => setAttributes({ venue: val })}
+          />
+          <TextControl
+            label={__('Dirección', 'ao-events')}
+            value={address}
+            onChange={(val) => setAttributes({ address: val })}
+          />
+          <CheckboxControl
+            label={__('Mostrar dirección', 'ao-events')}
+            checked={!!showAddress}
+            onChange={(val) => setAttributes({ showAddress: val })}
+          />          
+          <TextControl
+            label={__('Ciudad', 'ao-events')}
+            value={city}
+            onChange={(val) => setAttributes({ city: val })}
+          />
           <TextareaControl
             label={__('Descripción', 'ao-events')}
             value={description}

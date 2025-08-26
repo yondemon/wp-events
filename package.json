@@ -1,7 +1,7 @@
 {
   "name": "ao-events",
-  "version": "1.0.0",
-  "description": "",
+  "version": "1.5.0",
+  "description": "Muestra la información de un evento con schema.org",
   "main": "index.js",
   "scripts": {
     "start": "wp-scripts start",
@@ -9,7 +9,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Pablo RM (pablo.rod@amorodio.es)",
   "license": "ISC",
   "devDependencies": {
     "@wordpress/scripts": "^30.21.0"

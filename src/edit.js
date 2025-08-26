@@ -1,5 +1,10 @@
 import { __ } from '@wordpress/i18n';
-import { useBlockProps, InspectorControls } from '@wordpress/block-editor';
+import {
+  useBlockProps,
+  InspectorControls,
+  MediaUpload,
+  MediaUploadCheck
+} from '@wordpress/block-editor';
 import { 
   PanelBody, 
   Button,
@@ -9,8 +14,9 @@ import {
   TextControl, 
   TextareaControl
 } from '@wordpress/components';
+import { useSelect } from '@wordpress/data';
 import { dateI18n } from '@wordpress/date';
-
+          
 import SimpleTemplate from './templates/simpleTemplate';
 import {
   BLOCK_NAMESPACE, EVENT_STATUS_OPTIONS
@@ -19,8 +25,9 @@ import {
 export default function edit({ attributes, setAttributes }) {
   const {
     eventName, description,
+    imageId,
     startDateTime, endDateTime, dateFormat, 
-    organizer, performer,
+    organizer, organizerURL, performer,
     venue, address, city,
     offers,
     price, priceCurrency,
@@ -31,6 +38,13 @@ export default function edit({ attributes, setAttributes }) {
   const blockProps = useBlockProps();
 
   const formattedStartDate = dateI18n(dateFormat, startDateTime);
+
+  const image = useSelect(
+    (select) => imageId ? 
+      (select('core')?.getMedia(imageId) || null)
+      : null,
+    [imageId]
+  );
 
   return (
     <>
@@ -51,6 +65,12 @@ export default function edit({ attributes, setAttributes }) {
             label={__('Organizador', 'ao-events')}
             value={organizer}
             onChange={(val) => setAttributes({ organizer: val })}
+          />
+          <TextControl
+            label={ __('Web Organizador', 'ao-events') }
+            type="url"
+            value={ organizerURL }
+            onChange={ (value) => setAttributes({ organizerURL: value }) }
           />
           <CheckboxControl
             label={__('Mostrar organizador', 'ao-events')}
@@ -98,8 +118,41 @@ export default function edit({ attributes, setAttributes }) {
             label={__('Mostrar descripción', 'ao-events')}
             checked={!!showDescription}
             onChange={(val) => setAttributes({ showDescription: val })}
-          />
-        </PanelBody>
+          />   
+          <MediaUploadCheck>
+            <MediaUpload
+              onSelect={(media) => {
+                setAttributes({ imageId: media.id, imageURL: media.url })}
+              }
+              allowedTypes={['image']}
+              value={imageId}
+              render={({ open }) => (
+                  <div>
+                    {image ? (
+                      <>
+                        <img
+                          src={image.source_url}
+                          alt={image.alt_text || ""}
+                          style={{ maxWidth: '100%', marginBottom: '8px' }} />
+                        <Button
+                          onClick={() => setAttributes({ imageId: 0, imageURL: "" })}
+                          isDestructive
+                          variant='secondary'
+                        >
+                          {__('Quitar imagen', 'ao-events')}
+                        </Button>
+                      </>
+                    ) : (
+                      <Button onClick={open} variant='primary'>
+                        {__('Seleccionar imagen', 'ao-events')}
+                      </Button>
+                    )}
+                  </div>
+                )
+              }
+            />
+          </MediaUploadCheck>
+        </PanelBody>        
         <PanelBody title={`${__('Estado del evento', 'ao-events')} ${eventStatus}`} initialOpen={false}>
           <SelectControl
             label={__('Estado', 'ao-events')}

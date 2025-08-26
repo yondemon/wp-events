@@ -16,12 +16,17 @@
     "address":     { "type": "string", "default": "" },
     "city":        { "type": "string", "default": "" },
     "description": { "type": "string", "default": "" },
+    "imageId":     { "type": "number", "default": 0 },
+    "imageURL":    { "type": "string", "default": "" },
     "offers": {
       "type": "array",
       "default": []
     },
+    "price":       { "type": "string", "default": "" },
+    "priceCurrency": { "type": "string", "default": "EUR" },
     "eventStatus": { "type": "string", "default": "EventScheduled" },
     "organizer":   { "type": "string", "default": "" },
+    "organizerURL":   { "type": "string", "default": "" },
     "performer":   { "type": "string", "default": "" },
     "showEventName":   { "type": "boolean", "default": true },
     "showAddress":     { "type": "boolean", "default": true },

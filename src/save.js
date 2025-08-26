@@ -1,14 +1,13 @@
 import { __ } from '@wordpress/i18n';
 import { useBlockProps } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
 
 import SimpleTemplate from './templates/simpleTemplate';
 import { BLOCK_NAMESPACE } from './constants';
 
 export default function save({ attributes }) {
   const { 
-    eventName, description,
-    organizer, performer,
+    eventName, description, imageURL,
+    organizer, organizerURL, performer,
     startDateTime, endDateTime, 
     venue, address, city,
     offers = [],
@@ -20,9 +19,6 @@ export default function save({ attributes }) {
   if (!startDateTime) return null;
 
   /* @TODO
-  - "image" (opt)
-  - Organizer
-  -- "url" (opt)
   - Offers
   -- validFrom - improve
   */
@@ -32,6 +28,7 @@ export default function save({ attributes }) {
     "@type": "Event",
     name: eventName || undefined,
     eventStatus: eventStatus ? `https://schema.org/${eventStatus}` : "https://schema.org/EventScheduled",
+    image: [imageURL] || undefined,
     startDate: startDateTime,
     endDate: endDateTime || (startDateTime)? addHours(startDateTime, 3) : undefined,
     location: location ? 
@@ -47,7 +44,11 @@ export default function save({ attributes }) {
       : undefined,
     description: description || undefined,
     organizer: organizer
-      ? { "@type": "Organization", "name": organizer }
+      ? { 
+        "@type": "Organization", 
+        name: organizer,
+        url: organizerURL || undefined
+      }
       : undefined,
     performer: performer
       ? { "@type": "PerformingGroup", "name": performer } // @TODO: Person o PerformingGroup

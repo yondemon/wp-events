@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Event block (Gutenberg)
  * Description: Muestra la información de un evento con schema.org
- * Version: 1.0.0
+ * Version: 1.5.0
  * Author: Pablo RM (pablo.rod@amorodio.es)
  */
 

@@ -8,7 +8,7 @@
   \********************/
 /***/ ((module) => {
 
-module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"offers":{"type":"array","default":[]},"eventStatus":{"type":"string","default":"EventScheduled"},"organizer":{"type":"string","default":""},"performer":{"type":"string","default":""},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true},"showOrganizer":{"type":"boolean","default":false},"showPerformer":{"type":"boolean","default":false}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
+module.exports = /*#__PURE__*/JSON.parse('{"apiVersion":3,"name":"ao-events/ao-event-block","title":"Evento","category":"text","icon":"calendar","description":"Define los datos de un evento muéstralos formateados. Incluye marcado schema.org","textdomain":"ao-events","attributes":{"eventName":{"type":"string","default":""},"startDateTime":{"type":"string","default":null},"endDateTime":{"type":"string","default":null},"dateFormat":{"type":"string","default":"d/m/Y"},"location":{"type":"string","default":""},"venue":{"type":"string","default":""},"address":{"type":"string","default":""},"city":{"type":"string","default":""},"description":{"type":"string","default":""},"imageId":{"type":"number","default":0},"imageURL":{"type":"string","default":""},"offers":{"type":"array","default":[]},"price":{"type":"string","default":""},"priceCurrency":{"type":"string","default":"EUR"},"eventStatus":{"type":"string","default":"EventScheduled"},"organizer":{"type":"string","default":""},"organizerURL":{"type":"string","default":""},"performer":{"type":"string","default":""},"showEventName":{"type":"boolean","default":true},"showAddress":{"type":"boolean","default":true},"showDescription":{"type":"boolean","default":true},"showOrganizer":{"type":"boolean","default":false},"showPerformer":{"type":"boolean","default":false}},"supports":{"html":false},"editorScript":"file:./build/index.js","editorStyle":"file:./build/index.css","style":"file:./build/style-index.css"}');
 
 /***/ }),
 
@@ -64,12 +64,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/components */ "@wordpress/components");
 /* harmony import */ var _wordpress_components__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
-/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__);
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
+/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @wordpress/date */ "@wordpress/date");
+/* harmony import */ var _wordpress_date__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_wordpress_date__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__);
+
 
 
 
@@ -84,10 +87,12 @@ function edit({
   const {
     eventName,
     description,
+    imageId,
     startDateTime,
     endDateTime,
     dateFormat,
     organizer,
+    organizerURL,
     performer,
     venue,
     address,
@@ -103,119 +108,164 @@ function edit({
     showPerformer
   } = attributes;
   const blockProps = (0,_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.useBlockProps)();
-  const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_3__.dateI18n)(dateFormat, startDateTime);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.Fragment, {
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+  const formattedStartDate = (0,_wordpress_date__WEBPACK_IMPORTED_MODULE_4__.dateI18n)(dateFormat, startDateTime);
+  const image = (0,_wordpress_data__WEBPACK_IMPORTED_MODULE_3__.useSelect)(select => imageId ? select('core')?.getMedia(imageId) || null : null, [imageId]);
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.InspectorControls, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Evento', 'ao-events'),
         initialOpen: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Nombre del evento', 'ao-events'),
           value: eventName,
           onChange: val => setAttributes({
             eventName: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar nombre del evento', 'ao-events'),
           checked: !!showEventName,
           onChange: val => setAttributes({
             showEventName: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Organizador', 'ao-events'),
           value: organizer,
           onChange: val => setAttributes({
             organizer: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+          label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Web Organizador', 'ao-events'),
+          type: "url",
+          value: organizerURL,
+          onChange: value => setAttributes({
+            organizerURL: value
+          })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar organizador', 'ao-events'),
           checked: !!showOrganizer,
           onChange: val => setAttributes({
             showOrganizer: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Intérprete / Artista', 'ao-events'),
           value: performer,
           onChange: val => setAttributes({
             performer: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar Intérprete / Artista', 'ao-events'),
           checked: !!showPerformer,
           onChange: val => setAttributes({
             showPerformer: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Lugar / Venue', 'ao-events'),
           value: venue,
           onChange: val => setAttributes({
             venue: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Dirección', 'ao-events'),
           value: address,
           onChange: val => setAttributes({
             address: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar dirección', 'ao-events'),
           checked: !!showAddress,
           onChange: val => setAttributes({
             showAddress: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Ciudad', 'ao-events'),
           value: city,
           onChange: val => setAttributes({
             city: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextareaControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Descripción', 'ao-events'),
           value: description,
           onChange: val => setAttributes({
             description: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.CheckboxControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Mostrar descripción', 'ao-events'),
           checked: !!showDescription,
           onChange: val => setAttributes({
             showDescription: val
           })
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUploadCheck, {
+          children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__.MediaUpload, {
+            onSelect: media => {
+              setAttributes({
+                imageId: media.id,
+                imageURL: media.url
+              });
+            },
+            allowedTypes: ['image'],
+            value: imageId,
+            render: ({
+              open
+            }) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
+              children: image ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.Fragment, {
+                children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("img", {
+                  src: image.source_url,
+                  alt: image.alt_text || "",
+                  style: {
+                    maxWidth: '100%',
+                    marginBottom: '8px'
+                  }
+                }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                  onClick: () => setAttributes({
+                    imageId: 0,
+                    imageURL: ""
+                  }),
+                  isDestructive: true,
+                  variant: "secondary",
+                  children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Quitar imagen', 'ao-events')
+                })]
+              }) : /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+                onClick: open,
+                variant: "primary",
+                children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Seleccionar imagen', 'ao-events')
+              })
+            })
+          })
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Estado del evento', 'ao-events')} ${eventStatus}`,
         initialOpen: false,
-        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+        children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Estado', 'ao-events'),
           value: eventStatus,
-          options: _constants__WEBPACK_IMPORTED_MODULE_5__.EVENT_STATUS_OPTIONS,
+          options: _constants__WEBPACK_IMPORTED_MODULE_6__.EVENT_STATUS_OPTIONS,
           onChange: value => setAttributes({
             eventStatus: value
           })
         })
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Entradas', 'ao-events'),
         initialOpen: true,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Precio', 'ao-events'),
           value: price,
           onChange: val => setAttributes({
             price: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Moneda', 'ao-events'),
           value: priceCurrency,
           onChange: val => setAttributes({
             priceCurrency: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(OffersFields, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(OffersFields, {
           offers: offers,
           setAttributes: setAttributes
         })]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.PanelBody, {
         title: `${(0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fechas', 'ao-events')} ${startDateTime ? formattedStartDate : ''}`,
         initialOpen: false,
-        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
+        children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.SelectControl, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Formato de fecha', 'ao-events'),
           value: dateFormat,
           options: [{
@@ -231,7 +281,7 @@ function edit({
           onChange: val => setAttributes({
             dateFormat: val
           })
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha inicio', 'ao-events'),
           currentDate: startDateTime || new Date().toISOString(),
           is12hour: false,
@@ -239,7 +289,7 @@ function edit({
             startDateTime: newDate
           }),
           __nextRemoveHelpButton: true
-        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
+        }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.DateTimePicker, {
           label: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Fecha fin', 'ao-events'),
           currentDate: endDateTime || new Date().toISOString(),
           is12hour: false,
@@ -249,11 +299,11 @@ function edit({
           __nextRemoveHelpButton: true
         })]
       })]
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)("div", {
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)("div", {
       ...blockProps,
-      children: startDateTime ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      children: startDateTime ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_5__["default"], {
         attributes: attributes,
-        baseClass: _constants__WEBPACK_IMPORTED_MODULE_5__.BLOCK_NAMESPACE
+        baseClass: _constants__WEBPACK_IMPORTED_MODULE_6__.BLOCK_NAMESPACE
       }) : (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('Selecciona fecha y hora…', 'ao-events')
     })]
   });
@@ -280,21 +330,21 @@ function OffersFields({
       offers: newOffers
     });
   };
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
     className: "offers-fields",
-    children: [offers.map((offer, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsxs)("div", {
+    children: [offers.map((offer, index) => /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsxs)("div", {
       className: "offers-item",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
+      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.TextControl, {
         value: offer,
         onChange: val => updateOffer(val, index),
         placeholder: "https://ejemplo.com/entradas"
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
         variant: "secondary",
         isDestructive: true,
         onClick: () => removeOffer(index),
         children: "\u2715"
       })]
-    }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_6__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
+    }, index)), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_7__.jsx)(_wordpress_components__WEBPACK_IMPORTED_MODULE_2__.Button, {
       variant: "primary",
       onClick: addOffer,
       children: (0,_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__.__)('+ Añadir enlace', 'ao-events')
@@ -355,13 +405,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _wordpress_i18n__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_wordpress_i18n__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @wordpress/block-editor */ "@wordpress/block-editor");
 /* harmony import */ var _wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_wordpress_block_editor__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @wordpress/data */ "@wordpress/data");
-/* harmony import */ var _wordpress_data__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(_wordpress_data__WEBPACK_IMPORTED_MODULE_2__);
-/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
-/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__);
-
+/* harmony import */ var _templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./templates/simpleTemplate */ "./src/templates/simpleTemplate.js");
+/* harmony import */ var _constants__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./constants */ "./src/constants.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "react/jsx-runtime");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__);
 
 
 
@@ -373,7 +420,9 @@ function save({
   const {
     eventName,
     description,
+    imageURL,
     organizer,
+    organizerURL,
     performer,
     startDateTime,
     endDateTime,
@@ -389,9 +438,6 @@ function save({
   if (!startDateTime) return null;
 
   /* @TODO
-  - "image" (opt)
-  - Organizer
-  -- "url" (opt)
   - Offers
   -- validFrom - improve
   */
@@ -401,6 +447,7 @@ function save({
     "@type": "Event",
     name: eventName || undefined,
     eventStatus: eventStatus ? `https://schema.org/${eventStatus}` : "https://schema.org/EventScheduled",
+    image: [imageURL] || 0,
     startDate: startDateTime,
     endDate: endDateTime || startDateTime ? addHours(startDateTime, 3) : undefined,
     location: location ? {
@@ -415,7 +462,8 @@ function save({
     description: description || undefined,
     organizer: organizer ? {
       "@type": "Organization",
-      "name": organizer
+      name: organizer,
+      url: organizerURL || undefined
     } : undefined,
     performer: performer ? {
       "@type": "PerformingGroup",
@@ -433,12 +481,12 @@ function save({
     }))
   };
   Object.keys(schemaData).forEach(k => schemaData[k] === undefined && delete schemaData[k]);
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsxs)("div", {
     ...blockProps,
-    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_3__["default"], {
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_templates_simpleTemplate__WEBPACK_IMPORTED_MODULE_2__["default"], {
       attributes: attributes,
-      baseClass: _constants__WEBPACK_IMPORTED_MODULE_4__.BLOCK_NAMESPACE
-    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)("script", {
+      baseClass: _constants__WEBPACK_IMPORTED_MODULE_3__.BLOCK_NAMESPACE
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("script", {
       type: "application/ld+json",
       children: JSON.stringify(schemaData, null, 2)
     })]
@@ -503,6 +551,7 @@ function SimpleTemplate({
     eventName,
     description,
     organizer,
+    organizerURL,
     performer,
     startDateTime,
     endDateTime,
@@ -549,7 +598,14 @@ function SimpleTemplate({
       children: description
     }), showOrganizer && organizer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `${baseClass}__organizer`,
-      children: organizer
+      children: organizerURL ? /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("a", {
+        href: organizerURL,
+        target: "_blank",
+        rel: "noopener noreferrer",
+        children: organizer
+      }) : {
+        organizer
+      }
     }), showPerformer && performer && /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_2__.jsx)("div", {
       className: `${baseClass}__performer`,
       children: performer

@@ -4,7 +4,7 @@ import { dateI18n } from '@wordpress/date';
 export default function SimpleTemplate({ attributes, baseClass }) {
   const { 
     eventName, description,
-    organizer, performer, 
+    organizer, organizerURL, performer, 
     startDateTime, endDateTime, dateFormat,
     venue, address, city,
     offers = [],
@@ -44,7 +44,11 @@ export default function SimpleTemplate({ attributes, baseClass }) {
         <p className={`${baseClass}__description`}>{description}</p>
       )}
       {showOrganizer && organizer && (
-        <div className={`${baseClass}__organizer`}>{organizer}</div>
+        <div className={`${baseClass}__organizer`}>
+          {organizerURL ? 
+          <a href={organizerURL} target="_blank" rel="noopener noreferrer">{organizer}</a>
+          : {organizer} }
+        </div>
       )}
       {showPerformer && performer && (
         <div className={`${baseClass}__performer`}>{performer}</div>
